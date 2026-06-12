@@ -7,7 +7,14 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -32,9 +39,10 @@ export default function RegisterPage() {
         router.push("/login");
       } else {
         const data = await res.json();
-        const errorMsg = typeof data.detail === "string" 
-          ? data.detail 
-          : "Registration failed. Please try again.";
+        const errorMsg =
+          typeof data.detail === "string"
+            ? data.detail
+            : "Registration failed. Please try again.";
         toast.error(errorMsg);
       }
     } catch (err) {
@@ -48,45 +56,52 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4 font-sans selection:bg-primary/30">
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center space-y-2">
-          <CardTitle className="text-3xl font-bold tracking-tight">Create an Account</CardTitle>
-          <CardDescription>Join us to start experiencing the platform.</CardDescription>
+          <CardTitle className="text-3xl font-bold tracking-tight">
+            Create an Account
+          </CardTitle>
+          <CardDescription>
+            Join us to start experiencing the platform.
+          </CardDescription>
         </CardHeader>
-        
+
         <form onSubmit={handleRegister}>
           <CardContent className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="you@example.com" 
-                required 
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input 
-                id="password" 
-                type="password" 
-                placeholder="••••••••" 
-                required 
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </CardContent>
-          
-          <CardFooter className="flex flex-col space-y-4">
+
+          <CardFooter className="flex flex-col space-y-4 mt-8 ">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Creating Account..." : "Sign Up"}
             </Button>
-            
+
             <p className="text-sm text-muted-foreground text-center">
               Already have an account?{" "}
-              <Link href="/login" className="text-primary hover:underline font-medium">
+              <Link
+                href="/auth/login"
+                className="text-primary hover:underline font-medium"
+              >
                 Sign in
               </Link>
             </p>

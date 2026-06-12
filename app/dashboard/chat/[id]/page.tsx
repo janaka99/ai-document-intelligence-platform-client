@@ -161,6 +161,19 @@ export default function ChatPage(props: { params: Promise<{ id: string }> }) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const topObserverRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [initialScrollDone, setInitialScrollDone] = useState(false);
+
+  useEffect(() => {
+    setInitialScrollDone(false);
+  }, [documentId]);
+
+  // Initial instant scroll to bottom
+  useEffect(() => {
+    if (messages.length > 0 && !initialScrollDone && !isFetchingHistory) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+      setInitialScrollDone(true);
+    }
+  }, [messages, initialScrollDone, isFetchingHistory]);
 
   // Intersection Observer — load older messages when user scrolls to top
   useEffect(() => {

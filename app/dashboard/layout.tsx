@@ -34,30 +34,30 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen">
       <div
-        className={`fixed left-0 top-0 h-screen bg-card border-r border-border transition-all duration-300 z-40 ${
+        className={`fixed left-0 top-0 h-screen bg-card border-r border-border transition-all duration-300 z-40 overflow-hidden flex flex-col ${
           isSidebarOpen ? "w-64" : "w-20"
         }`}
       >
         <Logo />
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary font-medium transition-all duration-300">
-            <Upload className="w-5 h-5" />
-            {isSidebarOpen && "Dashboard"}
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-primary/10 text-primary font-medium transition-all duration-300 whitespace-nowrap">
+            <Upload className="w-5 h-5 flex-shrink-0" />
+            {isSidebarOpen && <span>Dashboard</span>}
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted transition-all duration-300">
-            <Settings className="w-5 h-5" />
-            {isSidebarOpen && "Settings"}
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted transition-all duration-300 whitespace-nowrap">
+            <Settings className="w-5 h-5 flex-shrink-0" />
+            {isSidebarOpen && <span>Settings</span>}
           </button>
         </nav>
 
         {isSidebarOpen && <ChatSidebar />}
 
         {/* Footer */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted transition-all duration-300">
-            <LogOut className="w-5 h-5" />
-            {isSidebarOpen && "Logout"}
+        <div className="mt-auto p-4">
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-muted transition-all duration-300 whitespace-nowrap">
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            {isSidebarOpen && <span>Logout</span>}
           </button>
         </div>
       </div>

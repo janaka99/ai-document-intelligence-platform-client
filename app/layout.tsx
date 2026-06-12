@@ -13,8 +13,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "AI Document Intelligence Platform",
-  description: "Advanced document processing platform",
+  title: "DocIntel",
+  description: "Intelligent Agent for Document Understanding",
 };
 
 export default function RootLayout({
