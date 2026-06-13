@@ -27,7 +27,11 @@ const assistantComponents: Components = {
       {children}
     </a>
   ),
-  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+  p: ({ children }) => (
+    <p className="mb-2 last:mb-0 break-words break-all hyphens-auto">
+      {children}
+    </p>
+  ),
   ul: ({ children }) => (
     <ul className="list-disc pl-5 mb-2 space-y-1">{children}</ul>
   ),
@@ -48,26 +52,32 @@ const assistantComponents: Components = {
     <strong className="font-semibold">{children}</strong>
   ),
   code: ({ children }) => (
-    <code className="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono">
+    <code className="bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono break-words whitespace-pre-wrap">
       {children}
     </code>
   ),
   pre: ({ children }) => (
-    <pre className="bg-black/10 dark:bg-white/10 p-3 rounded-lg text-xs font-mono overflow-x-auto mb-2">
+    <pre
+      className="bg-black/10 dark:bg-white/10 p-3 rounded-lg text-xs font-mono 
+    overflow-x-auto max-w-full w-full mb-2 whitespace-pre-wrap break-words"
+    >
       {children}
     </pre>
   ),
+
   blockquote: ({ children }) => (
     <blockquote className="border-l-2 border-border pl-3 italic text-muted-foreground mb-2">
       {children}
     </blockquote>
   ),
   hr: () => <hr className="border-border my-3" />,
+  // table — already has overflow-x-auto wrapper, but add w-full max-w-full
   table: ({ children }) => (
-    <div className="overflow-x-auto mb-2">
-      <table className="text-xs border-collapse w-full">{children}</table>
+    <div className="overflow-x-auto max-w-full w-full mb-2">
+      <table className="text-xs border-collapse min-w-full">{children}</table>
     </div>
   ),
+
   th: ({ children }) => (
     <th className="border border-border px-2 py-1 bg-black/5 dark:bg-white/5 font-semibold text-left">
       {children}
@@ -93,12 +103,12 @@ const userComponents: Components = {
     </a>
   ),
   code: ({ children }) => (
-    <code className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-mono">
+    <code className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-mono break-words whitespace-pre-wrap">
       {children}
     </code>
   ),
   pre: ({ children }) => (
-    <pre className="bg-white/20 p-3 rounded-lg text-xs font-mono overflow-x-auto mb-2">
+    <pre className="bg-white/20 p-3 rounded-lg text-xs font-mono overflow-x-auto max-w-full mb-2">
       {children}
     </pre>
   ),
@@ -208,10 +218,10 @@ export default function ChatPage(props: { params: Promise<{ id: string }> }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-card">
+    <div className="flex flex-col h-full bg-card overflow-hidden w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-b border-border bg-card/50 backdrop-blur-sm z-10 sticky top-0">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-b border-border bg-card/50 backdrop-blur-sm z-10 shrink-0">
+        <div className="flex items-center gap-3 w-full">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
             <FileText className="w-5 h-5 text-primary" />
           </div>
@@ -235,7 +245,7 @@ export default function ChatPage(props: { params: Promise<{ id: string }> }) {
       {/* Messages */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6"
+        className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6  w-full"
       >
         {/* Top sentinel for infinite scroll pagination */}
         <div ref={topObserverRef} className="h-1" />
@@ -254,16 +264,16 @@ export default function ChatPage(props: { params: Promise<{ id: string }> }) {
           return (
             <div
               key={message.id}
-              className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+              className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] md:max-w-2xl px-5 py-3.5 rounded-2xl ${
+                className={`max-w-full sm:max-w-[85%] md:max-w-2xl px-5 py-3.5 rounded-2xl min-w-0 break-words overflow-hidden ${
                   isUser
                     ? "bg-primary text-primary-foreground rounded-br-sm"
                     : "bg-muted text-foreground rounded-bl-sm border border-border"
                 }`}
               >
-                <div className="text-sm md:text-base leading-relaxed">
+                <div className="text-sm md:text-base leading-relaxed w-full min-w-0 overflow-hidden [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_pre]:whitespace-pre-wrap [&_table]:max-w-full [&_img]:max-w-full [&_code]:break-all [&_code]:whitespace-pre-wrap">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={isUser ? userComponents : assistantComponents}
@@ -301,21 +311,21 @@ export default function ChatPage(props: { params: Promise<{ id: string }> }) {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-card border-t border-border">
-        <div className="max-w-4xl mx-auto flex gap-2">
+      <div className="p-4 bg-card border-t border-border shrink-0 w-full">
+        <div className="max-w-4xl mx-auto flex items-end gap-2 w-full">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
             placeholder={`Ask a question about ${document.name}...`}
-            className="flex-1 px-4 py-3 bg-muted border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            className="flex-1 px-4 py-3 bg-muted border border-border rounded-xl text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all min-w-0"
             disabled={isLoading || !sessionId}
           />
           <Button
             onClick={handleSend}
             disabled={isLoading || !input.trim() || !sessionId}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-5 rounded-xl h-auto"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground px-5 rounded-xl h-[50px] shrink-0"
           >
             <Send className="w-5 h-5" />
           </Button>
