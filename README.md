@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DocIntel - AI Document Intelligence Platform
 
-## Getting Started
+DocIntel is a full-stack, production-ready document intelligence platform. It allows users to upload any PDF or document and ask questions in natural language. An autonomous agent reasons about the question, optimizes its search, and returns precise answers strictly grounded in the uploaded files.
 
-First, run the development server:
+![DocIntel](https://github.com/user-attachments/assets/placeholder)
+
+**Backend API Repository:** [https://github.com/janaka99/ai-intelligent-document-platform-client](https://github.com/janaka99/ai-intelligent-document-platform) | **Live Demo:** [https://docintel-nine.vercel.app](https://docintel-nine.vercel.app)
+
+## ✨ Core Capabilities
+
+- **Agentic Workflow:** Powered by LangGraph, a multi-step agent loop decides when to refine a query, when to search, and when it has enough context to answer.
+- **Query Optimization:** Ambiguous questions are rewritten into precise search queries before touching the vector database.
+- **Semantic Vector Search:** Uses OpenAI embeddings and MongoDB Atlas vector search to find conceptually similar content.
+- **Memory Management:** Efficient conversation history compression ensures long conversations don't balloon token costs.
+- **Streaming via SSE:** Server-Sent Events stream every token, including live agent tool calls, providing real-time visibility into the agent's thought process.
+- **Rich Markdown Output:** Responses render as beautiful tables, code blocks, bullet lists, and clickable links.
+
+## 🏗️ Architecture Stack
+
+### Frontend (This Repository)
+
+- **Framework:** Next.js 14 (App Router)
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Features:** Server/Client components, Server-Sent Events (SSE) parsing, dynamic `react-markdown` rendering.
+
+### Backend (API Service)
+
+- **Framework:** FastAPI (Async Python API)
+- **Orchestration:** LangGraph (Agent state machine)
+- **Database:** MongoDB Atlas (Vector + Document Store)
+- **LLM / Embeddings:** OpenAI (`gpt-4o`, `text-embedding-3-small`)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the client application locally.
+
+### 1. Prerequisites
+
+- Node.js (v18+ recommended)
+- npm, yarn, pnpm, or bun
+- The DocIntel FastAPI backend running locally (typically on port 8000).
+
+### 2. Installation
+
+Clone this repository and install dependencies:
+
+```bash
+git clone https://github.com/yourusername/ai-document-intelligence-platform-client.git
+cd ai-document-intelligence-platform-client
+
+npm install
+# or yarn install / pnpm install
+```
+
+### 3. Environment Variables
+
+Create a `.env` file in the root directory based on the configuration you need:
+
+```env
+# URL for the FastAPI backend (default local development URL)
+NEXT_PUBLIC_API_URL="http://localhost:8000"
+
+# Optional: Links for the landing page
+NEXT_PUBLIC_GITHUB_URL="https://github.com/yourusername/ai-document-intelligence-platform"
+NEXT_PUBLIC_DOCS_URL="https://docs.yourplatform.com"
+```
+
+### 4. Running the Development Server
+
+Start the Next.js development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# or yarn dev / pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](#) if you want to contribute.
 
-## Learn More
+## 📄 License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open-source and available under the [MIT License](LICENSE).
